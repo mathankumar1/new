@@ -1,0 +1,28 @@
+#include "./Lib/Net/Http/HttpServer.au3"
+#include "./Lib/IO/Console.au3"
+
+_Main()
+
+Func _Main()
+
+    HttpServer_SetPort(80)
+    HttpServer_RegisterHost("this.is.my.dom")
+    HttpServer_RegisterHost("private.mycompany.com", @ScriptDir & "\WebRoot\custompath\deeper\private.mycompany.com")
+
+    ConsoleWrite("NetFlare Web Server 0.2, By Dhilip89" & @CRLF & @CRLF)
+    ConsoleWrite("Registered virtual hosts: " & @CRLF)
+
+    $HostList = HttpServer_GetRegisteredHosts()
+
+    For $i = 0 To HttpServer_CountRegisteredHosts() - 1
+        ConsoleWrite("[" & $i+1 & "] " & $HostList[$i] & @CRLF)
+    Next
+
+    HttpServer_Start()
+    ConsoleWrite(@CRLF & "Server is running..." & @CRLF)
+
+    While 1
+        Sleep(1000)
+    WEnd
+
+EndFunc
